@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|VT323&display=swap');
+
+* {
+  box-sizing:border-box;
+  overflow: -moz-scrollbars-none;
+}
+
+*::-webkit-scrollbar { width: 0 !important }
+
+:root {
+  --input-color:#33ff33;
+  --output-color:#bbffaa;
+  --bg:#11151f;
+  overflow-x:hidden;
+}
+
+
+
+body {
+  background-color:#11151f;
+  
+  margin:0;
+  padding:0;
+  
+  font-family: 'Major Mono Display', monospace;
+  overflow-x:hidden;
+
+  
+}
+
+p {
+  margin:0;
+  padding:0;
+}
+
+main {
+  
+  opacity:1;
+  filter: blur(0px);
+  /* animation: blurring .01s infinite; */
+  background-image: repeating-linear-gradient(var(--bg), #bbffaa11 4px);
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows: auto 50px;
+  
+  width:100vw;
+  min-height:100vh ;
+
+  filter: blur(0.7px);
+}
+
+
+
+@keyframes blurring {
+  to {
+    filter: blur(0.8px);
+    opacity:0.98;
+  }
+}
+
+#console {
+  white-space: pre;
+  opacity:0.8;
+  font-family: 'VT323', monospace;
+  
+  width:100%;
+  font-size:2rem;
+  color:var(--output-color);
+  border:0;
+  padding:0 5px 15px 15px;
+  height:auto;
+  
+  display:grid;
+  grid-template-rows:1fr;
+  grid-template-columns: auto 1fr;
+  align-items:center;
+}
+
+.cursor {
+  margin-left:3px;
+  width:10px;
+  background-color: var(--output-color);
+  height:20px;
+  animation: blink-animation 1s steps(2, start) infinite;
+  
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+#output {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  width:100%;
+  height:calc(100vh-50px);
+  color:var(--output-color);
+  padding:10px 15px;
+  font-size:1.3rem;
+  letter-spacing:0.3rem;
+  font-weight:700;
+
+}
+
+#output > * {
+  display:block;
+  margin-bottom:3px;
+  white-space: pre-wrap;
+}
+
+#output * {
+  line-height:1.5rem;
+}
+
+a, a:visited {
+  color:var(--input-color);
+}
+
+.red {
+  color:red;
+}
+
+input {
+  position:fixed;
+  bottom:0;
+  z-index:-100;
+  opacity:0;
+}
+
+@media screen and (max-width:600px) {
+  :root {
+    font-size:8px;
+  }
+
+  .cursor {
+    width:7px;
+    height:10px;
+  }
+
+  main {
+    filter: blur(0.5px);
+  }
+}
