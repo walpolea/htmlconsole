@@ -45,6 +45,7 @@ const commandMap = {
   welcome: () => commands.welcome(),
   hello: () => commands.printOut("world"),
   help: () => commands.help(),
+  clear: () => commands.clear(),
   print: args => commands.printOut(args.text),
   image: args => commands.image(args.src),
   link: args => commands.link(args.href)

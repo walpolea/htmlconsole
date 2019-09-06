@@ -54,3 +54,7 @@ export const link = (href) => {
   console.log(a);
   output.appendChild(p);
 }
+
+export function clear() {
+  document.querySelector("#output").innerHTML = "";
+}
