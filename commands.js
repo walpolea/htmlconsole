@@ -12,15 +12,48 @@ made by: <h2>ANDREW WALPOLE</h2>
   `);
 }
 
-export const help = () => {
-  printOut("<br/>");
-  printOut("=============");
-  printOut("COMMANDS ARE:");
-  for (var key in commandMap) {
-    printOut(`  >${key}`);
+const helps = {
+  image:
+    `
+
+image:
+  --src (required) [absolute path to image]
+  --width  [width of image]
+  --height [height of image]
+
+`,
+
+}
+
+export const help = (args) => {
+  const argsKeys = Object.keys(args);
+  if (argsKeys.length) {
+
+    if (helps[argsKeys[0]]) {
+      printOut(helps[argsKeys[0]])
+    } else {
+      printOut("SORRY, don't know about that one");
+    }
+
+  } else {
+    printOut(`
+
+=============
+COMMANDS:
+    `);
+
+    for (var key in commandMap) {
+      printOut(` >${key}`);
+    }
+
+    printOut(`
+=============
+
+    `);
+
   }
-  printOut("=============");
-  printOut("<br/>");
+
+
 }
 
 export const printOut = (text) => {
@@ -29,7 +62,12 @@ export const printOut = (text) => {
   output.appendChild(p);
 }
 
-export const image = (src) => {
+export function image({ src, width, height }) {
+  console.log(src, width, height);
+  if (!src) {
+    return false;
+  }
+
   const p = document.createElement("p");
   const img = document.createElement("img");
   img.onload = () => {
@@ -37,6 +75,14 @@ export const image = (src) => {
     scrollToBottom();
   };
   img.src = src;
+
+  if (width) {
+    img.setAttribute("width", width);
+  }
+
+  if (height) {
+    img.setAttribute("height", height);
+  }
 
   p.appendChild(img);
   output.appendChild(p);
@@ -58,3 +104,6 @@ export const link = (href) => {
 export function clear() {
   document.querySelector("#output").innerHTML = "";
 }
+
+
+

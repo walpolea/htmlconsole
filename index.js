@@ -20,7 +20,7 @@ const input = document.querySelector("#console > #input");
 
 if (window.mobilecheck()) {
   document.querySelector("input").addEventListener("input", (e) => {
-    console.log("in", e);
+    //console.log("in", e);
     var evt = new KeyboardEvent('keydown', { 'key': e.data, 'keyCode': e.data.charCodeAt(0) });
     evt.special = true;
     document.dispatchEvent(evt);
@@ -33,7 +33,7 @@ document.querySelector("#console").addEventListener("click", (e) => {
   var t = document.querySelector("input");
   t.focus();
   t.click();
-  console.log("clicky", t);
+  //console.log("clicky", t);
 });
 
 const output = document.querySelector("#output");
@@ -44,11 +44,11 @@ let curCommand = 0;
 const commandMap = {
   welcome: () => commands.welcome(),
   hello: () => commands.printOut("world"),
-  help: () => commands.help(),
   clear: () => commands.clear(),
-  print: args => commands.printOut(args.text),
-  image: args => commands.image(args.src),
-  link: args => commands.link(args.href)
+  help: (args) => commands.help(args),
+  print: args => commands.printOut(args),
+  image: args => commands.image(args),
+  link: args => commands.link(args)
 };
 
 const allowedKeys = [32, ...makeRange(48, 90), ...makeRange(186, 222)];
@@ -56,7 +56,7 @@ const allowedKeys = [32, ...makeRange(48, 90), ...makeRange(186, 222)];
 function initApp() {
 
   document.querySelector("body").addEventListener('paste', (event) => {
-    console.log("pasted");
+    //console.log("pasted");
     let paste = (event.clipboardData || window.clipboardData).getData('text');
     cbAdd(paste);
     cbUpdate();
@@ -65,7 +65,7 @@ function initApp() {
   });
 
   document.addEventListener("keydown", e => {
-    console.log("down");
+    //console.log("down");
     handleInput(e);
   });
 
@@ -121,24 +121,30 @@ function handleInput(e) {
 function submitCommand(cmd) {
   chAdd(cmd);
 
+  parseCommand(cmd);
+
   if (cmd && cmd !== "") {
-    const list = cmd.split(" ");
-    cmd = list[0];
 
-    let arglist, args;
+    const { mainCommand, args } = parseCommand(cmd);
 
-    if (list[1]) {
+    console.log(mainCommand, args);
+    // const list = cmd.split(" ");
+    // cmd = list[0];
 
-      argList = list[1].split("=");
-      args = {
-        [argList[0]]: argList[1]
-      };
+    // let arglist, args;
 
-    }
+    // if (list[1]) {
 
-    commandMap[cmd.toLowerCase()]
-      ? commandMap[cmd.toLowerCase()](args)
-      : commands.printOut(`<p class='red'>COMMAND NOT FOUND: ${cmd}</p>`);
+    //   argList = list[1].split("=");
+    //   args = {
+    //     [argList[0]]: argList[1]
+    //   };
+
+    // }
+
+    commandMap[mainCommand.toLowerCase()]
+      ? commandMap[mainCommand.toLowerCase()](args)
+      : commands.printOut(`<p class='red'>COMMAND NOT FOUND: ${mainCommand}</p>`);
   }
 
   setTimeout(scrollToBottom, 200);
@@ -171,8 +177,45 @@ function makeRange(start, end) {
   return arr;
 }
 
-function commandParse(cmd) {
+function parseCommand(cmd) {
 
+  const mainCommand = extractMainCommand(cmd);
+  const args = extractArguments(cmd);
+
+  return { mainCommand, args };
+
+}
+
+function extractMainCommand(cmd) {
+  //match first word until space
+  const reg = /(^[a-z]+)\s+/g;
+  const mainCmd = cmd.match(reg);
+  return mainCmd ? mainCmd[0].replace(" ", "") : cmd;
+}
+
+function extractArguments(cmd) {
+  if (cmd.indexOf("--") === -1) {
+    return [];
+  }
+
+  cmd = cmd.slice(cmd.indexOf("--"))
+  const argList = cmd.split(" ");
+  const arguments = {};
+
+  argList.forEach((arg, i) => {
+    if (arg.indexOf("--") === 0) {
+      if (argList[i + 1]) {
+        if (argList[i + 1].indexOf("--") === 0) {
+          arguments[arg.slice(2)] = true;
+        } else {
+          arguments[arg.slice(2)] = argList[i + 1];
+        }
+      } else {
+        arguments[arg.slice(2)] = true;
+      }
+    }
+  });
+  return arguments;
 }
 
 
@@ -216,7 +259,7 @@ function cbUpdate() {
 
 
 function scrollToBottom() {
-  console.log("scroll");
+  //console.log("scroll");
   const scrollHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
   window.scrollTo(0, scrollHeight);
 }

@@ -130,6 +130,21 @@ input {
   opacity:0;
 }
 
+@media screen and (max-width:900px) {
+  :root {
+    font-size:10px;
+  }
+
+  .cursor {
+    width:9px;
+    height:15px;
+  }
+
+  main {
+    filter: blur(0.625px);
+  }
+}
+
 @media screen and (max-width:600px) {
   :root {
     font-size:8px;
