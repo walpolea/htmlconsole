@@ -3,7 +3,9 @@ import('./commands.js').then((c) => {
   commands = c;
   initApp();
   commands.welcome();
-
+  var t = document.querySelector("input");
+  t.focus();
+  t.click();
 
 })
 
@@ -18,18 +20,17 @@ scrollToBottom();
 const input = document.querySelector("#console > #input");
 
 
-if (window.mobilecheck()) {
-  document.querySelector("input").addEventListener("input", (e) => {
-    //console.log("in", e);
-    var evt = new KeyboardEvent('keydown', { 'key': e.data, 'keyCode': e.data.charCodeAt(0) });
-    evt.special = true;
-    document.dispatchEvent(evt);
-    document.querySelector("input").value = "";
-    //handleInput(evt);
-  })
-}
+//if (window.mobilecheck()) {
+document.querySelector("input").addEventListener("keydown", (evt) => {
+  document.querySelector("input").value = "";
+  console.log(evt.key);
+  handleInput(evt);
+})
+//}
 
-document.querySelector("#console").addEventListener("click", (e) => {
+
+
+document.querySelector("main").addEventListener("click", (e) => {
   var t = document.querySelector("input");
   t.focus();
   t.click();
@@ -66,7 +67,8 @@ function initApp() {
 
   document.addEventListener("keydown", e => {
     //console.log("down");
-    handleInput(e);
+    //handleInput(e);
+
   });
 
 }
@@ -76,12 +78,10 @@ function handleInput(e) {
     switch (e.key) {
       case "v":
         var pasteText = document.createElement("textarea");
-        //document.querySelector("body").appendChild(pasteText);
         pasteText.focus();
         document.execCommand("paste");
-        console.log(pasteText.textContent, pasteText.value, pasteText);
         cbAdd(pasteText.textContent);
-        //pasteText.remove();
+        pasteText.remove();
         break;
       case "x":
         cbEmpty();
@@ -105,7 +105,7 @@ function handleInput(e) {
         break;
     }
 
-    if (allowedKey(e.keyCode)) {
+    if (allowedKey(e.key)) {
       cbAdd(e.key);
     }
 
@@ -165,8 +165,12 @@ function nextCommand() {
   return commandHistory[curCommand];
 }
 
-function allowedKey(keyCode) {
-  return allowedKeys.includes(keyCode);
+// function allowedKey(keyCode) {
+//   return allowedKeys.includes(keyCode);
+// }
+
+function allowedKey(key) {
+  return key.length === 1;
 }
 
 function makeRange(start, end) {
