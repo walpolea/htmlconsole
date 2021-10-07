@@ -145,7 +145,7 @@ const Console = (props) => {
         await new Promise((resolve) => setTimeout(resolve, 80));
         let t = texts.shift();
         if (t === "") {
-          t = "<br>";
+          t = "<br><br>";
         }
         this.output += t + `\n`;
       }

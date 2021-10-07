@@ -7,8 +7,10 @@ Welcome to <h1>ANDREWWALPOLE.DEV</h1>
 Just a fun little project, enjoy!
 
 <a href="https://andrewwalpole.com" target="_blank">ANDREWWALPOLE>COM</a>
-I'm also on twitter, <a href="https://twitter.com/walpolea" target="_blank">@WALPOLEA</a> on TWITTER
+
 <img width="125px" style="display:block;padding:10px;" src="/images/profile.png">
+<a href="https://twitter.com/walpolea" target="_blank">@WALPOLEA</a> on TWITTER
+
 Try, 'HELP' to get started
 ==============
 `,
