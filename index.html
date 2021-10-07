@@ -12,16 +12,17 @@
 
 <body>
 
-  <main>
-    <div id="output">
+  <main v-scope="Console()" @click="selectInput" @mounted="init();">
+    <div id="output" v-html="output" v-effect="output;scrollToBottom();">
     </div>
-    <div type="text" id="console">
-      <p id="input"></p>
+    <div id="console">
+      <p id="input">{{currentInput}}</p>
       <div class="cursor"></div>
     </div>
+    <input @mounted="inputMounted($el)" id="main-input" type="text" @keydown="handleInput($event);">
   </main>
-  <input id="main-input" style="display:block;" type="text">
-  <script src="index.js"></script>
+
+  <script type="module" src="index.js"></script>
 </body>
 
 </html>
