@@ -24,6 +24,7 @@ const Console = (props) => {
       }
     },
     handleInput(e) {
+      console.log(e);
       if (e.metaKey) {
         switch (e.key) {
           case "v":

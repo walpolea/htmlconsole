@@ -12,8 +12,8 @@ Just a fun little project, enjoy!
 <a href="https://twitter.com/walpolea" target="_blank">@WALPOLEA</a> on TWITTER
 
 Try, 'HELP' to get started
-==============
-`,
+
+==============`,
     help: () => {
       return `
 ==============
