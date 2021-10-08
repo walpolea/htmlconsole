@@ -59,7 +59,7 @@ main::after {
   z-index: 1000;
   opacity: 0.1;
   background: repeating-linear-gradient(to bottom, var(--bg), rgb(187, 255, 170) 4px);
-
+  background-size: 100% 4px;
   width: 100%;
   height: 100%;
   pointer-events: none;
